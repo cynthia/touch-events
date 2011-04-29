@@ -1,8 +1,9 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>Touch Events Specification</title>
     <meta http-equiv='Content-Type' content='text/html;charset=utf-8'/>
+    <meta name="viewport" content="width=device-width">
     <!--
       === NOTA BENE ===
       For the three scripts below, if your spec resides on dev.w3 you can check them
@@ -34,7 +35,7 @@
           // previousMaturity:  "WD",
 
           // if there a publicly available Editor's Draft, this is the link
-          edDraftURI:           "http://dvcs.w3.org/hg/webevents/raw-file/tip/touchevents.html",
+          edDraftURI:           "http://dvcs.w3.org/hg/webevents/raw-file/default/touchevents.html",
 
           // if this is a LCWD, uncomment and set the end of its review period
           // lcEnd: "2009-08-05",
@@ -81,7 +82,7 @@
       };
     </script>
 
-    <style>
+    <style type="text/css">
       .event {
         font-family: monospace;
         color: #459900;
@@ -98,13 +99,11 @@
     </section>
 
     <section id='conformance'>
-
       <p>This specification defines conformance criteria that apply to a single product: the <dfn id="dfn-user-agent">user agent</dfn> that implements the interfaces that it contains. </p>
 
       <p>Implementations that use ECMAScript to implement the APIs defined in this specification must implement them in a manner consistent with the ECMAScript Bindings defined in the Web IDL specification [[!WEBIDL]] as this specification uses that specification and terminology.  </p>
 
       <p> A conforming implementation is required to implement all fields defined in this specification. </p>
-
     </section>
 
     <section>
@@ -185,9 +184,7 @@
           <p class="issue" id="issue-inkml"><strong>Issue:</strong> Consider aligning with other "channels" and values from <a href="http://www.w3.org/TR/InkML/#channelContents">Ink Markup Language (InkML)</a>, in addition to <a>force</a>, e.g. adding <a>angle</a>, <a>clientZ</a>, <a>rotation</a>, etc.</p>
         </dd>
       </dl>
-
     </section>
-
 
     <section>
       <h2><a>TouchList</a> Interface</h2>
@@ -208,7 +205,6 @@
         </dd>
       </dl>
     </section>
-
 
     <section>
       <h2><a>TouchEvent</a> Interface</h2>
@@ -262,7 +258,7 @@
             <dt>DOMString type</dt> <dd></dd>
             <dt>boolean canBubble</dt> <dd></dd>
             <dt>boolean cancelable</dt> <dd></dd>
-            <dt>DOMWindow view</dt> <dd></dd>
+            <dt>AbstractView view</dt> <dd></dd>
             <dt>long detail</dt> <dd></dd>
             <dt>boolean ctrlKey</dt> <dd></dd>
             <dt>boolean altKey</dt> <dd></dd>
@@ -350,6 +346,54 @@
       </section>
     </section>
 
+    <section>
+      <h2><a>DocumentTouch</a> Interface</h2>
+      <p>The <a>DocumentTouch</a> interface provides a mechanism by which the user can create <a>Touch</a> and <a>TouchList</a> objects. The <a>DocumentTouch</a> interface must be implemented on the <a>Document</a> object.</p>
+
+      <dl title='interface DocumentTouch' class='idl'>
+        <dt>Touch createTouch()</dt>
+        <dd>
+          Creates a <a>Touch</a> object with the specified attributes.
+          <dl class='parameters'>
+            <dt>AbstractView view</dt> <dd></dd>
+            <dt>EventTarget target</dt> <dd></dd>
+            <dt>long identifier</dt> <dd></dd>
+            <dt>long pageX</dt> <dd></dd>
+            <dt>long pageY</dt> <dd></dd>
+            <dt>long screenX</dt> <dd></dd>
+            <dt>long screenY</dt> <dd></dd>
+            <dt>optional long clientX</dt> <dd></dd>
+            <dt>optional long clientY</dt> <dd></dd>
+            <dt>optional long radiusX</dt> <dd></dd>
+            <dt>optional long radiusY</dt> <dd></dd>
+            <dt>optional float rotationAngle</dt> <dd></dd>
+            <dt>optional float force</dt> <dd></dd>
+          </dl>
+        </dd>
+
+        <dt>TouchList createTouchList()</dt>
+        <dd>
+          Creates a <a>TouchList</a> object containing the specified <a>Touch</a> objects.
+          <dl class='parameters'>
+            <dt>Touch[] touches</dt> <dd></dd>
+          </dl>
+        </dd>
+
+        <dt>TouchList createTouchList()</dt>
+        <dd>
+          Creates a <a>TouchList</a> object containing a single <a>Touch</a>.
+          <dl class='parameters'>
+            <dt>Touch touch</dt> <dd></dd>
+          </dl>
+        </dd>
+      </dl>
+
+      <p class="issue" id="issue-createTouch-pageXY"><strong>Issue:</strong>
+        Does <a>createTouch</a> need to take both pageX/pageY <em>and</em>
+        clientX/clientY as parameters?  If not, which pair should be removed?
+      </p>
+    </section>
+
     <section id="mouse-events">
       <h2>Interaction with Mouse Events</h2>
       <p>The user agent may dispatch both touch events and mouse events
@@ -380,7 +424,12 @@
       </dl>
     </section>
 
-    <section class='appendix'>
+    <section id='issues' class='informative'>
+      <h2>Issues</h2>
+      <p>The working group maintains <a href='http://www.w3.org/2010/webevents/track/products/2'>a list of open issues in this specification</a>.  These issues may be addressed in future revisions of the specification.</p>
+    </section>
+
+    <section class='appendix informative'>
       <h2>Acknowledgements</h2>
       <p>
         Many thanks to the WebKit engineers for developing the model used as a basis for this spec, Neil Roberts (SitePen) for his summary of WebKit touch events, Peter-Paul Koch (PPK) for his writeups and suggestions, Robin Berjon for developing the <a href="http://dev.w3.org/2009/dap/ReSpec.js/documentation.html">ReSpec.js spec authoring tool</a>, and the WebEvents WG for their many contributions.
